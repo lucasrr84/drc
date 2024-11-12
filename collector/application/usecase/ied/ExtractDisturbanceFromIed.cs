@@ -34,8 +34,7 @@ public class ExtractDisturbanceFromIed
             TcpPort = ied.TcpPort,
         };
 
-        //ied.SetDriver(new DriverFactory(_logger, iedDto).Create(ied.Manufacturer));
-        ied.SetDriver(_driverFactory.Create(ied.Manufacturer));
+        ied.SetDriver(_driverFactory.Create(ied.Manufacturer, iedDto));
 
         if (ied.Driver == null) throw new Exception($"ExtractDisturbanceFromIed.Execute() - {ied.SubstationName.GetValue()}{ied.BayName.GetValue()} - {ied.Manufacturer} Driver not found");
         

@@ -7,21 +7,19 @@ namespace collector.infra.gateway;
 public class GatewayFactory : IGatewayFactory
 {
     private readonly ILog _logger;
-    private readonly IedDto _ied;
 
-    public GatewayFactory(ILog logger, IedDto ied)
+    public GatewayFactory(ILog logger)
     {
         _logger = logger;
-        _ied = ied;
     }
     
-    public IGateway Create(string protocol)
+    public IGateway Create(string protocol, IedDto iedDto)
     {
         return protocol switch
         {
-            "Mms" => new MmsGateway(_logger, _ied),
-            "Telnet" => new SelGateway(_logger, _ied),
-            _ => new MmsGateway(_logger, _ied)
+            "Mms" => new MmsGateway(_logger, iedDto),
+            "Telnet" => new SelGateway(_logger, iedDto),
+            _ => new MmsGateway(_logger, iedDto)
         };
     }
 }
