@@ -8,8 +8,11 @@ using collector.infra.driver;
 using collector.infra.gateway;
 using collector.infra.logger;
 using collector.infra.repository;
+using Microsoft.AspNetCore.Builder;
 
-var builder = Host.CreateApplicationBuilder(args);
+//var builder = Host.CreateApplicationBuilder(args);
+var builder = WebApplication.CreateSlimBuilder(args);
+
 builder.Services.AddSingleton<ILog, ConsoleLog>();
 builder.Services.AddTransient<IGatewayFactory, GatewayFactory>();
 builder.Services.AddTransient<IDriverFactory, DriverFactory>();
@@ -17,6 +20,8 @@ builder.Services.AddSingleton<IIedRepository, IedRepositoryMemory>();
 builder.Services.AddTransient<GetEnabledIeds>();
 builder.Services.AddTransient<ExtractDisturbanceFromIed>();
 builder.Services.AddHostedService<Worker>();
+
+builder.Services.AddControllers();
 
 var host = builder.Build();
 
@@ -26,4 +31,6 @@ else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) host.RunWindowsSer
 else host.Run();
 */
 
-host.Run();
+host.MapControllers();
+
+host.Run("http://localhost:3000");
