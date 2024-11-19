@@ -1,6 +1,7 @@
 using collector.domain.driver;
 using collector.domain.dto;
 using collector.domain.repository;
+using collector.domain.service;
 
 namespace collector.application.usecase.ied;
 
@@ -50,8 +51,22 @@ public class ExtractDisturbanceFromIed
         // Lista arquivos do IED
         var filesInIed = await ied.Driver.GetFiles(false);
 
-        //mais etapas...
+        // Seleciona os novos arquivos
+        var newFiles = filesInIed.Where(file => NewFileDetectorService.IsNewFile(file)).ToList();
 
+        // Conta quantos arquivos novos existem
+
+        // Realiza o download
+        newFiles.Select(file => DownloadService.Execute(file));
+        
+        // Le arquivo cfg para pegar data/hora - errado. modificar para ler do arquivo ja salvo no hd
+        newFiles.Select(file => GetDateTimeFromFile.Execute(file));
+        
+        // Cria oscilografia
+
+        
+        // Grava no BD
+        
         // Desconecta do IED
         await ied.Driver.Disconnect();
     }

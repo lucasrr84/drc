@@ -7,4 +7,5 @@ public interface IDriver
     Task<List<string>> GetDirectories(bool verbose);
     Task<List<string>> GetFiles(bool verbose);
     Task Disconnect();
+    string GetFilePath(string fileName);
 }

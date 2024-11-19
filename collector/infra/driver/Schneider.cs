@@ -32,4 +32,11 @@ public class Schneider : IDriver
     {
         return await _gateway.GetFiles(verbose);
     }
+
+    public string GetFilePath(string fileName)
+    {
+        //Retorna caminho do arquivo no IED no modelo pasta/arquivo.cfg
+        //Exemplo: COMTRADE/arquivo.cfg
+        return $"{IedDirectory}{fileName.Split('/')[^1]}";
+    }
 }

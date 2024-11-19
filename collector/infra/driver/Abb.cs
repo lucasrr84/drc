@@ -32,4 +32,11 @@ public class Abb : IDriver
     {
         return await _gateway.GetFiles(verbose);
     }
+
+    public string GetFilePath(string fileName)
+    {
+        // Returns file path on IED in model: folder/file.cfg
+        // Example: COMTRADE/file.cfg
+        return $"{IedDirectory}{fileName.Split('\\')[^1]}";
+    }
 }
